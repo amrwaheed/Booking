@@ -16,11 +16,6 @@
                     @if (session('message'))
                         <div class="alert alert-success" role="alert">
                             {{ session('message') }}
-{{--                            @foreach($tickets as $ticket)--}}
-{{--                                @foreach($ticket->category as $cat)--}}
-{{--                                <h3>{{$$cat->category_name}}</h3>--}}
-{{--                                @endforeach--}}
-{{--                            @endforeach--}}
                         </div>
                     @endif
                     @if (session('booked'))

@@ -56,20 +56,16 @@ class HomeController extends Controller
 
             if ( $order_count_normal <= 200 || $order_count_student <= 200 )
             {
-
                 foreach ($validatedData['ticket'] as $value) {
-                    $order = DB::table('orders')->insert([
+                   DB::table('orders')->insert([
                         'category_id' => $value ,
                         'user_id' => auth()->user()->id ,
                         "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
                         "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
                     ]);
                 }
-                $tickets = User::where("id",auth()->user()->id)->with('category')->get()->first();
-
                 Session::flash('message', 'Congratulations The ticket has been successfully booked');
-
-                return view('success',compact('tickets'));
+                return view('success');
             }else{
                 Session::flash('booked', 'The tickets are over.');
                 return view('success');
