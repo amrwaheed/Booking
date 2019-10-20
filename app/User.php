@@ -37,9 +37,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function  category()
+    public function  ticket()
     {
-        return $this->belongsToMany('\App\Category', 'orders' ,'user_id' , 'category_id' );
+        return $this->belongsToMany('\App\Ticket', 'ticket_user' ,'user_id' , 'ticket_id' );
     }
 
 }

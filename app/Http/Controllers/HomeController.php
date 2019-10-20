@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\Order;
+
+use App\Ticket;
+use App\TicketUser;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,11 +31,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('user')->get();
-        $order_count_normal = Order::where('category_id','=','1')->count('category_id');// count the normal ticket
-        $order_count_student = Order::where('category_id','=','2')->count('category_id');// count the student ticket
+        $tickets = Ticket::with('user')->get();
+        $order_count_normal = TicketUser::where('ticket_id', '1')->count('ticket_id');// count the normal ticket
+        $order_count_student = TicketUser::where('ticket_id', '2')->count('ticket_id');// count the student ticket
         $i = 0;
-        return view('home' ,compact('categories', 'i','order_count_normal','order_count_student'));
+        return view('home' ,compact('tickets', 'i','order_count_normal','order_count_student'));
     }
 
     /**
@@ -43,38 +44,40 @@ class HomeController extends Controller
      */
     public function create(Request $request)
     {
+
         $validatedData = $request->validate([
             'ticket' => 'required_without_all',
         ]);// Validated user must check at least one checkbox
+        $tickets = $validatedData['ticket']; // array contain ids tickets
 
-        if (Order::where('user_id', '=', auth()->user()->id )->exists() ) { // check if user exists user has ticket or not
-            Session::flash('booked', 'You are already booked');
-            return view('success');
-        }else{
-            $order_count_normal = Order::where('category_id','=','1')->count('category_id');// count the normal ticket
-            $order_count_student = Order::where('category_id','=','2')->count('category_id');// count the student ticket
-
+       
+            $order_count_normal = TicketUser::where('ticket_id', '1')->count('ticket_id');// count the normal ticket
+            $order_count_student = TicketUser::where('ticket_id', '2')->count('ticket_id');// count the student ticket
             if ( $order_count_normal <= 200 || $order_count_student <= 200 )
             {
-                foreach ($validatedData['ticket'] as $value) {
-                   DB::table('orders')->insert([
-                        'category_id' => $value ,
-                        'user_id' => auth()->user()->id ,
-                        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
-                        "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+
+                $user_id = auth()->user()->id;
+                foreach ($tickets as $ticket){
+                    TicketUser::create([
+                        'ticket_id' => $ticket ,
+                        'user_id' => $user_id
                     ]);
                 }
                 Session::flash('message', 'Congratulations The ticket has been successfully booked');
                 return view('success');
+
             }else{
                 Session::flash('booked', 'The tickets are over.');
                 return view('success');
-            }
-
-        }
-
+            }// end of if condition to check if number of ticket < 200
+        }// end of check one user have one ticket
 
 
-    }
+
+
+
+
+
+
 
 }

@@ -11,15 +11,15 @@ class TicketCategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        \Illuminate\Support\Facades\DB::table('categories')->insert([
-            'category_name' => 'Normal Ticket',
+        \Illuminate\Support\Facades\DB::table('tickets')->insert([
+            'ticket_name' => 'Normal Ticket',
             'price' => '400 EG',
             'created_at' => date("Y-m-d h:i:s"),
             'updated_at' => date("Y-m-d h:i:s"),
 
         ]);
-        \Illuminate\Support\Facades\DB::table('categories')->insert([
-            'category_name' => 'Student Ticket',
+        \Illuminate\Support\Facades\DB::table('tickets')->insert([
+            'ticket_name' => 'Student Ticket',
             'price' => '200 EG',
             'created_at' => date("Y-m-d h:i:s"),
             'updated_at' => date("Y-m-d h:i:s"),
