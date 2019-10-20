@@ -50,19 +50,23 @@ class HomeController extends Controller
         ]);// Validated user must check at least one checkbox
         $tickets = $validatedData['ticket']; // array contain ids tickets
 
-       
+
             $order_count_normal = TicketUser::where('ticket_id', '1')->count('ticket_id');// count the normal ticket
             $order_count_student = TicketUser::where('ticket_id', '2')->count('ticket_id');// count the student ticket
             if ( $order_count_normal <= 200 || $order_count_student <= 200 )
             {
 
                 $user_id = auth()->user()->id;
+                $array= array();
                 foreach ($tickets as $ticket){
-                    TicketUser::create([
+                    $array[] = array(
                         'ticket_id' => $ticket ,
-                        'user_id' => $user_id
-                    ]);
+                        'user_id' => $user_id,
+                        "created_at" =>  \Carbon\Carbon::now(), # new \Datetime()
+                        "updated_at" => \Carbon\Carbon::now(),  # new \Datetime()
+                    );
                 }
+                TicketUser::insert($array);
                 Session::flash('message', 'Congratulations The ticket has been successfully booked');
                 return view('success');
 
