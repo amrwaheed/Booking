@@ -20,4 +20,3 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/save', 'HomeController@create')->name('createTicket');
-//Route::get('/success', 'HomeController@create')->name('createTicket');

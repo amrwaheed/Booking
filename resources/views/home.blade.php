@@ -5,14 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                @include('layouts._message')
                 <div class="card-header">Booking Your Ticket</div>
-
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
                         <div class="alert alert-danger" role="alert">
                             You can only book one ticket of each ticket type !!!!
                         </div>
@@ -24,24 +19,19 @@
                                            type="checkbox" id="inlineCheckbox{{++$i}}"
                                            value="{{$ticket->id}}"
                                            name="ticket[]"
-                                        {{ (($order_count_normal < 200 && $ticket->id=="1") || ($ticket->id == "2" && $order_count_student < 200)) ? "" : "disabled"}}>
+                                        {{ (($order_count_normal < 200 && $ticket->id=="1") || ($ticket->id == "2" && $order_count_student < 200)) ? "" : "checked disabled"}}
+                                    >
                                         <label class="form-check-label"  for="inlineCheckbox{{$i}}">{{$ticket->ticket_name }} -  {{ $ticket->price}}</label>
                                 </div> <br>
 
                             @endforeach
-                            @if ($errors->any())
-                                <div class="alert alert-danger" role="alert">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                            @include('layouts._errors')
                             <div class="text-center">
-                                <input type="submit" class="btn btn-outline-primary">
+                                <input type="submit" class="btn btn-outline-primary" value="Save">
                             </div>
                         </form>
+
+
                 </div>
             </div>
         </div>
