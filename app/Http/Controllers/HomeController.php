@@ -7,7 +7,6 @@ use App\Ticket;
 use App\TicketUser;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\FormDataRequest;
 
@@ -32,12 +31,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::with('ticket')->where('id' , auth()->user()->id)->first();
-        $tickets = Ticket::with('user')->get();
-        $order_count_normal = TicketUser::where('ticket_id', '1')->count('ticket_id');// count the normal ticket
-        $order_count_student = TicketUser::where('ticket_id', '2')->count('ticket_id');// count the student ticket
-        $i = 0;
-    return view('home' ,compact('tickets', 'i','order_count_normal','order_count_student','users'));
+
+    return view('home' ,
+        ['tickets'=> Ticket::get(),
+        'i' =>$i =0 ,
+        'order_count_normal' => TicketUser::where('ticket_id', '1')->count('ticket_id'), // count to normal ticket
+        'order_count_student' => TicketUser::where('ticket_id', '2')->count('ticket_id'), // count to student ticket
+        'users' => User::with('ticket')->where('id' , auth()->user()->id)->first()
+         ]);
     }
 
     /**
