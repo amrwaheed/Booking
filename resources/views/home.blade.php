@@ -8,8 +8,8 @@
                 @include('layouts._message')
                 <div class="card-header">Booking Your Ticket</div>
                 <div class="card-body">
-                        <div class="alert alert-danger" role="alert">
-                            You can only book one ticket of each ticket type !!!!
+                        <div class="alert alert-warning" role="alert">
+                            <strong>Note : </strong> You can only book one ticket of each ticket type !!!!
                         </div>
                         <form action="{{route('createTicket')}}" method="post">
                             {{ csrf_field() }}
