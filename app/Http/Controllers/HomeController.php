@@ -32,11 +32,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $users = User::with('ticket')->where('id' , auth()->user()->id)->first();
         $tickets = Ticket::with('user')->get();
         $order_count_normal = TicketUser::where('ticket_id', '1')->count('ticket_id');// count the normal ticket
         $order_count_student = TicketUser::where('ticket_id', '2')->count('ticket_id');// count the student ticket
         $i = 0;
-    return view('home' ,compact('tickets', 'i','order_count_normal','order_count_student'));
+    return view('home' ,compact('tickets', 'i','order_count_normal','order_count_student','users'));
     }
 
     /**

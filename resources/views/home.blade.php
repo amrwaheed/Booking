@@ -35,6 +35,22 @@
                 </div>
             </div>
         </div>
+            <div class="col-md 4">
+                <div class="card">
+                    <div class="card-header"> Your Ticket </div>
+                    <div class="card-body">
+                    @if(isset($users->ticket))
+                        @foreach($users->ticket as $user)
+                            <ul>
+                                <li>{{$user->ticket_name}}</li>
+                            </ul>
+                        @endforeach
+                    @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-</div>
+
 @endsection

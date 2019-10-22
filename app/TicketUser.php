@@ -13,4 +13,6 @@ class TicketUser extends Model
     ];
 
     protected $guarded = [];
+
+
 }
